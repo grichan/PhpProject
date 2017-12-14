@@ -16,7 +16,7 @@
             if(preg_match("/^[a-zA-Z0-9_.-]+/", $_POST['name'])){ //regular expression
                 $name=$_POST['name'];
 
-                include 'C:\Users\Administrator\PhpstormProjects\PersonControl\db_connnection.php';
+                include 'db_connnection.php';
                 $conn = OpenCon();
                 $name = mysqli_real_escape_string($conn, $name);
 
