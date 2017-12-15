@@ -32,8 +32,6 @@ if($conn === false){
 die("ERROR: Could not connect. " );
 }
 
-
-
 $sql = $conn->prepare("SELECT Id, FirstName , LastName  , Title , DepartmentId
 FROM workers
 ORDER BY Id
@@ -91,55 +89,56 @@ echo "<table class='table'>";
 
 <script>
 
-    $(document).ready(function(){
+    function onPageReady(data) {
+        // show the response
+        $('#response').html(data);
+        //alert(data[0]);
+        $('input[name=page]').val(data[0]);
+        var pg = localStorage.getItem('page');
+        var str = localStorage.getItem('response');
 
-        $(" #page_btns button").click(function(e) {
-            e.preventDefault();
-            // show that something is loading
-            var page_number = localStorage.getItem('page');
-            // var bla = $('#page').val();
-           // alert(bla);
+        //var obj1 = [];
+        //var obj1 = localStorage.getItem("response");
+        //obj1 = (obj1) ? JSON.parse(obj1) : []; // check if localstorage obj contains an array called obj.
+        // if it does it will parse the string and return cars array if it does not it will set cars
+        // array to a new empty array
+        //alert(str);
+        var obj = JSON.parse(str);
+    }
 
-            /*
-             * 'post_receiver.php' - where you will pass the form data
-             * $(this).serialize() - to easily read form data
-             * function(data){... - data contains the response from post_receiver.php
-             */
-            $.ajax({
-                type: 'POST',
-                url: 'response.php',
-                //data: { id: $(this).val()                 // < note use of 'this' here
-                data:{
-                    'id':  $(this).val(),
-                    'page': page_number // <-- the $ sign in the parameter name seems unusual, I would avoid it
-                },
+    function onPageFail() {
+        // just in case posting your form failed
+        alert( "Posting failed." );
+    }
 
-                    })
-                .done(function(data){
-                            // show the response
-                            $('#response').html(data);
-                            //alert(data[0]);
-                        $('input[name=page]').val(data[0]);
-                            var pg = localStorage.getItem('page');
-                            var str = localStorage.getItem('response');
+    function onPageButtonClicked(e) {
+        e.preventDefault(); // The default event will not be triggered
 
-                            //var obj1 = [];
-                            //var obj1 = localStorage.getItem("response");
-                            //obj1 = (obj1) ? JSON.parse(obj1) : []; // check if localstorage obj contains an array called obj.
-                            // if it does it will parse the string and return cars array if it does not it will set cars
-                            // array to a new empty array
-                            //alert(str);
-                            var obj = JSON.parse(str);
-                })
-                .fail(function() {
-                    // just in case posting your form failed
-                    alert( "Posting failed." );
-                });
-            // to prevent refreshing the whole page page
-            return false;
+        var page_number = localStorage.getItem('page');
+        // var bla = $('#page').val();
+        // alert(bla);
 
-        });
-    });
+        /*
+         * 'post_receiver.php' - where you will pass the form data
+         * $(this).serialize() - to easily read form data
+         * function(data){... - data contains the response from post_receiver.php
+         */
+
+        var ajaxParams = {};
+        ajaxParams.type = "POST";
+        ajaxParams.url = "response.php";
+        ajaxParams.data = {id: $(this).val(), page: page_number};
+
+        $.ajax(ajaxParams).done(onPageReady).fail(onPageFail);
+
+        return false;
+    }
+
+    function onDocumentReady(){
+        $(" #page_btns button").click(onPageButtonClicked);
+    }
+
+    $(document).ready(onDocumentReady);
 </script>
 </body>
 </html>
