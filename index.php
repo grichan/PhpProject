@@ -19,9 +19,9 @@
             <br>
             <div class="row">
                 <div class="col">
-                    <form  method="post" action="search.php?go"  id="searchform" class="form-group" >
-                        <input  type="text" name="name">
-                        <input  type="submit" name="submit" value="Search" class="btn">
+                    <form  method="post" action=""  id="searchform" class="form-group" >
+                        <input id="search" type="text" name="name">
+                        <button  type="submit" name="submit" value="Search" class="btn">Search</button>
                     </form>
                 </div>
 

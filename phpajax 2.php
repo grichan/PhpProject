@@ -80,8 +80,6 @@ echo "<table class='table'>";
 <form id="page_btns" method="post"  >
     <button id="button" class='btn' value="-1" name="but1">Previous</button>
     <button id="button" class='btn' value="+1" name="but2">Next</button>
-
-    
     <input id="page" type="hidden" value="1" name="page" >
 </form>
 
@@ -126,7 +124,7 @@ echo "<table class='table'>";
 
         var ajaxParams = {};
         ajaxParams.type = "POST";
-        ajaxParams.url = "response.php";
+        ajaxParams.url = "pageResponse.php";
         ajaxParams.data = {id: $(this).val(), page: page_number};
 
         $.ajax(ajaxParams).done(onPageReady).fail(onPageFail);
@@ -134,8 +132,45 @@ echo "<table class='table'>";
         return false;
     }
 
+    function onSearchRedy(data) {
+        // show the response
+        $('#response').html(data);
+        //alert(data[0]);
+       }
+
+    function onSearchFail() {
+        // just in case posting your form failed
+        alert( "Posting failed." );
+
+    }
+
+    function onSearchSumbitClick(e) {
+        e.preventDefault(); // The default event will not be triggered
+
+         // var bla = $('#page').val();
+        // alert(bla);
+
+        /*
+         * 'post_receiver.php' - where you will pass the form data
+         * $(this).serialize() - to easily read form data
+         * function(data){... - data contains the response from post_receiver.php
+         */
+
+        var ajaxParams = {};
+        ajaxParams.type = "POST";
+        ajaxParams.url = "searchResponse.php";
+        ajaxParams.data = {name: $('#search').val()};
+
+        $.ajax(ajaxParams).done(onSearchRedy).fail(onSearchFail);
+
+        return false;
+        }
+
+
+
     function onDocumentReady(){
         $(" #page_btns button").click(onPageButtonClicked);
+        $(" #searchform button").click(onSearchSumbitClick);
     }
 
     $(document).ready(onDocumentReady);
