@@ -4,7 +4,7 @@ $limit = 10;
 $next_page = $_POST["page"];
 $page = $next_page;
 
-if( $_POST["id"] == "+1" )
+if( $_POST["id"] == "+1" ) //calculate next page
 {
     $next_page += 1;//2
 } else if ( $_POST["id"] == "-1" )

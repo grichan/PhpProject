@@ -27,9 +27,9 @@ if (!$conn) {
 }
 
 
-    
+
 if($conn === false){
-die("ERROR: Could not connect. " );
+    die("ERROR: Could not connect. " );
 }
 
 $sql = $conn->prepare("SELECT Id, FirstName , LastName  , Title , DepartmentId
@@ -45,36 +45,36 @@ $result = $sql->get_result();
 echo "<div id='response'>";
 
 echo "<table class='table'>";
-    echo "<tr>";
-        echo "<th>Id </th>";
-        echo "<th>First Name  </th>";
-        echo "<th>Last Name </th>";
-        echo "<th>Title </th>";
-        echo "<th>Depart </th>";
-        echo "</tr>";
+echo "<tr>";
+echo "<th>Id </th>";
+echo "<th>First Name  </th>";
+echo "<th>Last Name </th>";
+echo "<th>Title </th>";
+echo "<th>Depart </th>";
+echo "</tr>";
 
-    while ($row = $result->fetch_assoc())
-    {
+while ($row = $result->fetch_assoc())
+{
     echo "<tr>";
-        echo "<td>" . $row['Id'] . "</td>";
-        echo "<td>" . $row['FirstName'] . "</td>";
-        echo "<td>" . $row['LastName'] . "</td>";
-        echo "<td>" . $row['Title'] . "</td>";
-        echo "<td>" . $row['DepartmentId'] . "</td>";
-        echo "<td>
+    echo "<td>" . $row['Id'] . "</td>";
+    echo "<td>" . $row['FirstName'] . "</td>";
+    echo "<td>" . $row['LastName'] . "</td>";
+    echo "<td>" . $row['Title'] . "</td>";
+    echo "<td>" . $row['DepartmentId'] . "</td>";
+    echo "<td>
             <form action=\"edit.php\" method=\"post\">
                 <button name=\"Edit\" value=\"". $row['Id'] ."\" class='btn'>Edit</button>
             </form>
         </td>";
-        echo "<td>
+    echo "<td>
             <form action=\"delete.php\" method=\"post\">
                 <button name=\"Delete\" value=\"". $row['Id'] ."\" class='btn btn-danger'>Delete</button>
             </form>
         </td>";
-     }
-        echo "</tr>";
-        echo "</table>";
-        echo "</div>";
+}
+echo "</tr>";
+echo "</table>";
+echo "</div>";
 ?>
 
 <form id="page_btns" method="post"  >
@@ -83,7 +83,9 @@ echo "<table class='table'>";
     <input id="page" type="hidden" value="1" name="page" >
 </form>
 
-<script> localStorage.setItem('page', 1); </script>
+<script>
+    localStorage.setItem('page', 1);
+</script>
 
 <script>
 
@@ -125,7 +127,7 @@ echo "<table class='table'>";
         var ajaxParams = {};
         ajaxParams.type = "POST";
         ajaxParams.url = "pageResponse.php";
-        ajaxParams.data = {id: $(this).val(), page: page_number};
+        ajaxParams.data = { id: $(this).val(), page: page_number };
 
         $.ajax(ajaxParams).done(onPageReady).fail(onPageFail);
 

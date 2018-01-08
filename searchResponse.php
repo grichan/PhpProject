@@ -12,7 +12,7 @@ if (!$conn) {
 }
 
 $search = $_POST['name'];
-echo json_encode($search);
+echo "<h1>". $search ."</h1>";
 
 $sql = $conn->prepare("SELECT  Id, FirstName, LastName, DepartmentId, Title FROM workers WHERE FirstName LIKE '%" . $search .  "%' OR LastName LIKE '%" . $search ."%' OR Title LIKE '%" . $search ."%' OR Id LIKE '%" . $search ."%'");
 $sql->execute();
@@ -44,7 +44,11 @@ while ($row = $result->fetch_assoc())
                 <form action=\"delete.php\" method=\"post\">
                     <button name=\"Delete\" value=\"". $row['Id'] ."\" class='btn btn-danger'>Delete</button>
                </form>
-                </td>";
+                </td>
+                <script>
+                         localStorage.setItem('SearchType', 1);                
+                </script>
+                ";
 }
 
 echo "</tr>";
