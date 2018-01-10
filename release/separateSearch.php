@@ -36,7 +36,6 @@
         alert( "Posting failed." );
 
     }
-
     function onSearchRedy(data) {
         // show the response
         $('#response').html(data);
@@ -63,7 +62,6 @@
         $.ajax(ajaxParams).done(onSearchRedy).fail(onSearchFail);
         return false;
     }
-
 
     function onPageButtonClicked(e) {
         e.preventDefault(); // The default event will not be triggered
@@ -98,7 +96,9 @@
         $(" #page_btns li").click(onPageButtonClicked);
     }
     $(document).ready(onDocumentReady);
-
+    setTimeout(function() {
+        $("#searchform button").trigger('click'); // triger search for default data
+    },10);
 
 
 </script>

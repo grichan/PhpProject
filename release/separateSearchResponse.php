@@ -1,4 +1,10 @@
 <?php
+session_start();
+$login_status = false;
+if ( $_SESSION["logged_in"] == true){
+    $login_status = true;
+    $username = $_SESSION["naam"];
+}
 
 $limit = 6;
 
@@ -73,18 +79,22 @@ while ($row = $result->fetch_assoc())
     echo "<td>" . $row['LastName'] . "</td>";
     echo "<td>" . $row['Title'] . "</td>";
     echo "<td>" . $row['DepartmentId'] . "</td>";
-    echo "<td>
+
+    if ( $login_status){
+        echo "<td>
                 <form action=\"edit.php\" method=\"post\">
                     <button name=\"Edit\" value=\"". $row['Id'] ."\" class='btn'>Edit</button>
                </form>
                 </td>";
-    echo "<td>
+    }
+    if ( $login_status){
+        echo "<td>
                 <form action=\"delete.php\" method=\"post\">
                     <button name=\"Delete\" value=\"". $row['Id'] ."\" class='btn btn-danger'>Delete</button>
                </form>
                 </td>
-
                 ";
+    }
 }
     echo "</tr>";
     echo "</table>";
