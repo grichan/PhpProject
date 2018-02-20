@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
 </head>
 
 <div class="container">
@@ -27,11 +28,34 @@
 
 
 <script>
+    function onPageButtonClicked(e) {
+        e.preventDefault(); // The default event will not be triggered
+        //alert( "POST-type: " + $(this).attr('id'));
+        var page_number = localStorage.getItem('page');
+
+        e.preventDefault(); // The default event will not be triggered
+
+        // var bla = $('#page').val();
+        // alert(bla);
+
+        /*
+         * 'post_receiver.php' - where you will pass the form data
+         * $(this).serialize() - to easily read form data
+         * function(data){... - data contains the response from post_receiver.php
+         */
+        var ajaxParams = {};
+        ajaxParams.type = "POST";
+        ajaxParams.url = "../<?=TEMPLATES_PATH?>/searchResponse.php";    // SeparateSearchResponse.php
+        ajaxParams.data = { "type": $(this).attr('id'), "search": $('#search').val() ,  page: page_number  };
+
+        $.ajax(ajaxParams).done(onSearchRedy).fail(onSearchFail);
+        return false;
+
+    }
 
     function onSearchFail(data) {
         // just in case posting your form failed
         alert( "Posting failed." + JSON.parse(data)  );
-
     }
     function onSearchRedy(data) {
         // show the response
@@ -60,43 +84,22 @@
         return false;
     }
 
-    function onPageButtonClicked(e) {
-        e.preventDefault(); // The default event will not be triggered
-        //alert( "POST-type: " + $(this).attr('id'));
-        var page_number = localStorage.getItem('page');
-
-        e.preventDefault(); // The default event will not be triggered
-
-        // var bla = $('#page').val();
-        // alert(bla);
-
-        /*
-         * 'post_receiver.php' - where you will pass the form data
-         * $(this).serialize() - to easily read form data
-         * function(data){... - data contains the response from post_receiver.php
-         */
-        var ajaxParams = {};
-        ajaxParams.type = "POST";
-        ajaxParams.url = "../<?=TEMPLATES_PATH?>/searchResponse.php";    // SeparateSearchResponse.php
-        ajaxParams.data = { "type": $(this).attr('id'), "search": $('#search').val() ,  page: page_number  };
-
-        $.ajax(ajaxParams).done(onSearchRedy).fail(onSearchFail);
-        return false;
-
-    }
-
-    function onDocumentReady(){
-        document.addEventListener("DOMContentLoaded", function() {
-            onSearchSumbitClick();
-        });
-        $(" #searchform button").click(onSearchSumbitClick);
-        $(" #page_btns li").click(onPageButtonClicked);
-    }
-    $(document).ready(onDocumentReady);
-    setTimeout(function() {
-        $("#searchform button").trigger('click'); // triger search for default data
-    },10);
-
 
 </script>
+
+
+<!--
+function onDocumentReady(){
+document.addEventListener("DOMContentLoaded", function() {
+onSearchSumbitClick();
+});
+$(" #searchform button").click(onSearchSumbitClick);
+$(" #page_btns li").click(onPageButtonClicked);
+}
+$(document).ready(onDocumentReady);
+setTimeout(function() {
+$("#searchform button").trigger('click'); // triger search for default data
+},10);
+</script>
+-->
 

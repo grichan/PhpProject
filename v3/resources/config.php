@@ -15,7 +15,6 @@ $config = array(
             "host" => "localhost"
         )
     ),
-
     "paths" => array(
         "resources" => "/resources",
         "images" => array(

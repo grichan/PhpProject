@@ -145,6 +145,7 @@ if (isset($_SESSION['logged_in']) == true)
     button {
         background: rgba(240, 239, 255, 0.97);
         margin-top: 0.3vw;
+
     }
 
     .transform {

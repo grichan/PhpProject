@@ -91,7 +91,8 @@ if(isset($_POST['Edit'])){
                             </div>
                             <br>
                             <input name="Id" type="hidden" value="<?php echo $id ?>">
-                            <input type="submit" value="Sumbit" name="submit" class="btn">
+                            <input type="button" onclick="window.location.href='index.php'" value="Back" name="back" class="btn">
+                            <input type="submit" value="Sumbit" name="submit" class="btn btn-primary">
                         </form>
 
 <?php

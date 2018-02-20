@@ -7,3 +7,44 @@ html,body
     overflow-x: hidden;
 }
 
+.dropdown-menu.show {
+    margin: 1px;
+}
+
+#greetingMessage {
+    font-size: 2.1vw;
+    color: rgba(240, 239, 255, 0.97);
+    font-family: 'Fjalla One', sans-serif;
+    text-transform: uppercase;
+    display:inline-block;
+    margin: 5px;
+}
+
+.dropdown-toggle {
+    margin: 3px;
+}
+
+/* --------- header ---------*/
+.control_row {
+    background: linear-gradient(to right, rgba(1, 32, 60, 0.8), #057487);
+}
+.dropdown-menu {
+    background-color: #efefef;
+    border: solid;
+    border-color: #057487;
+    border-width: 2px;
+    padding: 3px;
+    margin-right: 7px;
+    margin-top: 5px;
+}
+.dropdown-menu > li:hover {
+    background-color: #FFF;
+    color: #057487;
+}
+col {
+    padding-left: 0!important;
+    padding-right: 0!important;
+}
+#response {
+    width: 100%;
+}

@@ -26,7 +26,7 @@ require_once ("connection.php");
         $stmt->bind_param("sssis", $fname,$lname,$title,$depart,$id);
         $stmt->execute();
 
-        header("location:javascript://history.go(-1)"); /* Redirect browser */
+        header("location:../../public_html/index.php"); /* Redirect browser */
         exit();
     }
 ?>

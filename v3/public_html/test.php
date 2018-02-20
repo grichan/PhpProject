@@ -1,35 +1,16 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 1/12/2018
- * Time: 1:13 PM
- */
 
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
-$cars = array
-(
-    array("Volvo",22,18),
-    array("BMW",15,13),
-    array("Saab",5,2),
-    array("Land Rover",17,15)
-);
+</head>
 
-$cars[0][2] = "Whatevs";
-echo $cars[0][2];
-
-
-$array = [[]];
-$i = 0;
-while ($row = mysqli_fetch_array($queryResult)){
-    array[$i][0] = $row['id'];
-    array[$i][1] = $row['name1'];
-    array[$i][2] = $row['name2'];
-    array[$i][3] = $row['phone'];
-    array[$i][4] = $row['address'];
-    array[$i][5] = $row['dep_id'];
-    i++;
-}
-$db_arr=[$id, $name, $family, $phone, $address, $dep_id];
-return $db_arr;
-}
+<button id="button" value="Button">Button</button>
+<script type="text/javascript" src="js/test.js"></script>
+<script>
+    $("#button").click(function () {
+        test();
+    });
+</script>
