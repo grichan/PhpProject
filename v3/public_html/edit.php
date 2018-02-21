@@ -11,8 +11,8 @@
 <?php
     require_once("../resources/config.php");
     require_once( "../" . TEMPLATES_PATH . "/header.php");
+    include "../resources/classes/Worker.php";
 ?>
-
     <div class="container">
         <div class="row ">
             <div class="col">
@@ -21,95 +21,62 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-2">
-
-            </div>
+            <div class="col-2"></div>
             <div class="col-8">
-<?php
-if(isset($_POST['Edit'])){
-
-
-                require_once "../". TEMPLATES_PATH . '/connection.php';
-
-                $name = $_POST["Edit"];
-                $conn = OpenCon();
-                $name = mysqli_real_escape_string($conn, $name);
-
-                $stmt = $conn->prepare('SELECT * FROM workers WHERE Id = ?');
-                $stmt->bind_param('s', $name);
-                $stmt->execute();
-                echo "<table class='table'>";
-                echo "<tr>";
-                echo "<th>First Name  </th>";
-                echo "<th>Last Name </th>";
-                echo "<th>Title </th>";
-                echo "<th>Department  </th>";
-                echo "</tr>";
-                $result = $stmt->get_result();
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    global $id;
-                    $id = $row['Id'];
-                    $fname = $row['FirstName'];  echo "<td>" . $fname . "</td>";
-                    $lname = $row['LastName']; echo "<td>" . $lname . "</td>";
-                    $title = $row['Title']; echo "<td>" . $title . "</td>";
-                    $department = $row['DepartmentId']; echo "<td>" . $department . "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
+                <?php
+                        if(isset($_POST['Edit'])){
+                                require_once "../". TEMPLATES_PATH . '/connection.php';
+                                $worker = getWorker( $_POST["Edit"] );
+                                echo "<table class='table'>";
+                                    echo "<tr>";
+                                        echo "<th>First Name  </th>";
+                                        echo "<th>Last Name </th>";
+                                        echo "<th>Title </th>";
+                                        echo "<th>Department  </th>";
+                                    echo "</tr>";
+                                    echo "<tr>";
+                                        global $worker;
+                                        echo "<td>" . $worker->firstName . "</td>";
+                                        echo "<td>" . $worker->lastName . "</td>";
+                                        echo "<td>" . $worker->title . "</td>";
+                                        echo "<td>" . $worker->department . "</td>";
+                                    echo "</tr>";
+                                }
+                                echo "</table>";
                 ?>
             </div>
-            <div class="col-2">
-
-            </div>
+            <div class="col-2"></div>
         </div>
-                <div class="row">
-                    <div class="col-2"></div>
-                    <div class="col-8">
-                        <form action="../resources/templates/updateRequest.php" method="POST">
-                            First name: <input type="text" name="FirstName" class="form-control" value="<?php echo("". $fname ."")?>"><br>
-                            Last name: <input type="text" name="LastName" class="form-control"  value="<?php echo("". $lname ."")?>" ><br>
-                            Title: <input type="text" name="Title" class="form-control"  value="<?php echo("". $title ."")?>" ><br>
-                            <div class="dropdown">
-                                <?php
-                                $stmt = $conn->prepare('SELECT * FROM Departments');
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-
-                                echo "<select name='dropdown'>";
-                                while ($row = $result->fetch_assoc()) {
-                                    if ( $department == $row['Id'] )
-                                    {
-                                        echo "  <option selected=\"selected\" value=\""  .$row['Id']."\">". $row['DepartmentName'] ." </option>";
-                                    } else
-                                    {
-                                        echo "  <option value=\""  .$row['Id']."\">". $row['DepartmentName'] ." </option>";
-                                    }
-                                };
-                                echo "</select>";
-                                ?>
-                            </div>
-                            <br>
-                            <input name="Id" type="hidden" value="<?php echo $id ?>">
-                            <input type="button" onclick="window.location.href='index.php'" value="Back" name="back" class="btn">
-                            <input type="submit" value="Sumbit" name="submit" class="btn btn-primary">
-                        </form>
-
-<?php
-} else
-    echo "Nope";
-?>
-
-
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <form action="../resources/templates/updateRequest.php" method="POST">
+                    First name: <input type="text" name="FirstName" class="form-control" value="<?php echo("". $worker->firstName ."")?>"><br>
+                    Last name: <input type="text" name="LastName" class="form-control"  value="<?php echo("". $worker->lastName ."")?>" ><br>
+                    Title: <input type="text" name="Title" class="form-control"  value="<?php echo("". $worker->title ."")?>" ><br>
+                    Department:<div class="dropdown">
+                        <?php
+                        $departmetsArray = getDepartments();
+                        echo "<select name='dropdown'>";
+                        foreach ( $departmetsArray as $row){
+                            if ( $row[0] == $worker->department) {
+                                echo "  <option selected=\"selected\" value=\""  . $row[0] ."\">". $row[1] ." </option>";
+                            } else {
+                                echo "  <option value=\""  .$row[0]."\">". $row[1] ." </option>";
+                            }
+                        }
+                        echo "</select>";
+                        ?>
                     </div>
-                    <div class="col-2"></div>
-                </div>
-
+                    <br>
+                    <input name="Id" type="hidden" value="<?php echo $worker->id ?>">
+                    <input type="button" onclick="window.location.href='index.php'" value="Back" name="back" class="btn">
+                    <input type="submit" value="Sumbit" name="submit" class="btn btn-primary">
+                </form>
+            </div>
+            <div class="col-2"></div>
+        </div>
     </div>
 </body>
 
-<style>
-    div.container {
-    }
 
-</style>

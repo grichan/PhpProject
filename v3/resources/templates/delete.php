@@ -1,21 +1,14 @@
 <?php
 
     if(isset($_POST['Delete'])) {
-        $post = $_POST['Delete'];
-        echo "/" . $post . "/";
-
         include 'connection.php';
-        $conn = OpenCon();
-
-        $post = $_POST['Delete'];
-        $post = mysqli_real_escape_string($conn, $post);
-
-        $stmt = $conn->prepare('DELETE FROM  	workers WHERE Id = ?');
-        $stmt->bind_param('s', $post);
-        $stmt->execute();
-        CloseCon($conn);
-
-        header("Location: ../../public_html/index.php"); /* Redirect browser */
+        $id = $_POST['Delete'];
+        if (deleteWorker($id)){
+            header("Location: ../../public_html/index.php"); /* Redirect browser */
+        } else {
+            echo "an error occured" . "<style> body{ background-color:red; } </style>";
+            header("refresh:5;url=../../public_html/index.php");
+        }
         exit();
     } else {
         echo "

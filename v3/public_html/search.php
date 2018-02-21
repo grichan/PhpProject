@@ -26,23 +26,13 @@
         </div>
 </div>
 
-
 <script>
     function onPageButtonClicked(e) {
         e.preventDefault(); // The default event will not be triggered
-        //alert( "POST-type: " + $(this).attr('id'));
         var page_number = localStorage.getItem('page');
 
         e.preventDefault(); // The default event will not be triggered
 
-        // var bla = $('#page').val();
-        // alert(bla);
-
-        /*
-         * 'post_receiver.php' - where you will pass the form data
-         * $(this).serialize() - to easily read form data
-         * function(data){... - data contains the response from post_receiver.php
-         */
         var ajaxParams = {};
         ajaxParams.type = "POST";
         ajaxParams.url = "../<?=TEMPLATES_PATH?>/searchResponse.php";    // SeparateSearchResponse.php
@@ -54,27 +44,17 @@
     }
 
     function onSearchFail(data) {
-        // just in case posting your form failed
         alert( "Posting failed." + JSON.parse(data)  );
     }
     function onSearchRedy(data) {
         // show the response
         $('#response').html(data);
-        //alert(data[0]);
     }
     function onSearchSumbitClick(e) {
         var page_number = localStorage.getItem('page');
 
         e.preventDefault(); // The default event will not be triggered
 
-        // var bla = $('#page').val();
-        // alert(bla);
-
-        /*
-         * 'post_receiver.php' - where you will pass the form data
-         * $(this).serialize() - to easily read form data
-         * function(data){... - data contains the response from post_receiver.php
-         */
         var ajaxParams = {};
         ajaxParams.type = "POST";
         ajaxParams.url =  "../<?=TEMPLATES_PATH?>/searchResponse.php";
@@ -83,23 +63,4 @@
         $.ajax(ajaxParams).done(onSearchRedy).fail(onSearchFail);
         return false;
     }
-
-
 </script>
-
-
-<!--
-function onDocumentReady(){
-document.addEventListener("DOMContentLoaded", function() {
-onSearchSumbitClick();
-});
-$(" #searchform button").click(onSearchSumbitClick);
-$(" #page_btns li").click(onPageButtonClicked);
-}
-$(document).ready(onDocumentReady);
-setTimeout(function() {
-$("#searchform button").trigger('click'); // triger search for default data
-},10);
-</script>
--->
-

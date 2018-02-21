@@ -4,12 +4,8 @@ if (isset($_SESSION['logged_in']) == true)
 {
     session_destroy();
 }
-
-
 ?>
-
 <html>
-
 <head>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
@@ -17,12 +13,9 @@ if (isset($_SESSION['logged_in']) == true)
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
 </head>
-<?php
-    require_once("../resources/config.php");
-?>
+<?php require_once("../resources/config.php");?>
 
 <body>
-
     <div class="container-fluid">
         <div class="row">
             <div class="col"></div>
@@ -32,11 +25,10 @@ if (isset($_SESSION['logged_in']) == true)
             </div>
         </div>
     </div>
-
     <div class="container">
         <div class="row" id="wideRow">
             <div class="col"></div>
-            <div class="col" ><h1 class="align-middle">WELCOME TRAVELER</h1></div>
+            <div class="col" ><h1 class="text-center">WELCOME TRAVELER</h1></div>
             <div class="col"></div>
         </div>
         <div class="row" id="imageRow">
@@ -57,19 +49,15 @@ if (isset($_SESSION['logged_in']) == true)
                     </form>
             </div>
             <div class="col"></div>
-
         </div>
     </div>
 </body>
-
 <script>
-
     function onLoginFail(data) {
         // just in case posting your form failed
         alert( "Posting failed." );
 
     }
-
     function onLoginReady(data) {
         // show the response
         var result =  $.parseJSON( data );
@@ -78,9 +66,7 @@ if (isset($_SESSION['logged_in']) == true)
         //alert(data[0]);
 
     }
-
     function onSubmitClick(e) {
-
         $('#submit').toggleClass('transform-active');
         $('#submit').toggleClass('transform-active');
 
@@ -92,14 +78,6 @@ if (isset($_SESSION['logged_in']) == true)
         //alert(username  + password)
         e.preventDefault(); // The default event will not be triggered
 
-        // var bla = $('#page').val();
-        // alert(bla);
-
-        /*
-         * 'post_receiver.php' - where you will pass the form data
-         * $(this).serialize() - to easily read form data
-         * function(data){... - data contains the response from post_receiver.php
-         */
         var ajaxParams = {};
         ajaxParams.type = "POST";
         ajaxParams.url = "../<?=TEMPLATES_PATH?>/loginResponse.php";
@@ -107,8 +85,6 @@ if (isset($_SESSION['logged_in']) == true)
         $.ajax(ajaxParams).done(onLoginReady).fail(onLoginFail);
         return false;
     }
-
-
     function onDocumentReady(){
         $(" #submit").click(onSubmitClick);
     }
@@ -117,17 +93,31 @@ if (isset($_SESSION['logged_in']) == true)
 
 <style>
     body{
-        background: linear-gradient(to right, rgba(1, 32, 60, 0.8), #057487);
+        background: linear-gradient(275deg, #2a42c5, #057487, #013b5f);
+        background-size:400% 400%;
+        -webkit-animation: AnimationGradientTransition 20s ease infinite;
+        -moz-animation: AnimationGradientTransition 20s ease infinite;
+        animation: AnimationGradientTransition 20s ease infinite;
+
+        }
+    @-webkit-keyframes AnimationGradientTransition {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    @-moz-keyframes AnimationGradientTransition {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
+    }
+    @keyframes AnimationGradientTransition {
+        0%{background-position:0% 50%}
+        50%{background-position:100% 50%}
+        100%{background-position:0% 50%}
     }
 
     #loginRow {
         color: rgba(240, 239, 255, 0.86);
-    }
-    #loginRow {
-
-    }
-    #login {
-
     }
      input[type="text"]
     {
@@ -145,19 +135,6 @@ if (isset($_SESSION['logged_in']) == true)
     button {
         background: rgba(240, 239, 255, 0.97);
         margin-top: 0.3vw;
-
-    }
-
-    .transform {
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        -ms-transition: all 1s ease;
-        transition: all 1s ease;
-    }
-
-    .transform-active {
-        background-color: rgb(172, 172, 183);
     }
 
 </style>
