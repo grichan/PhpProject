@@ -27,8 +27,7 @@
 
         echo  $str[$i]. "=" . $ctr . "<br>";
     }
-echo "<br>";
-
+echo "<br>";    
 
     $array1 = array();
     for ( $i = 0; $i < strlen($str); $i++){
@@ -70,13 +69,14 @@ echo "<br>";
     }
 
 
-
 // Matrix Print Out
 echo "<br>";
 echo "<br>";
 $n = 4;
 $m = 4;
 $array = array();
+
+
 
 for ( $i = 0; $i < $n; $i++){
     for( $j = 0; $j < $m; $j++){
@@ -142,10 +142,12 @@ $masiv = array(1, 1, 2, 3, 2);
 $result = 0;
 foreach ( $masiv as $element){
     $result = $result ^ $element;
-}
+        
+            }
 echo $result;
 
 
 echo "<br>";
+
 
 ?>

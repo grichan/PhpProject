@@ -1,19 +1,10 @@
 <?php
-function Cnect()
-{
 
-    try {
-        $conn = mysqli_connect("127.0.0.1", "root", "", "workersDb");
-        return $conn;
-    } catch (Exception $e) {
-        echo 'Caught exception: ',  $e->getMessage(), "\n";
-    }
-
-}
 function CloseCon($conn)
 {
     $conn -> close();
 }
+
 function OpenCon()
 {
     include('C:\xampp\htdocs\personale\v3\resources\config.php');
@@ -21,7 +12,7 @@ function OpenCon()
     return $conn;
 }
 
-function getDepartments() {
+function dbGetDepartments() {
     $conn = OpenCon();
     $stmt = $conn->prepare("SELECT * FROM Departments");
     $stmt->execute();
@@ -34,7 +25,7 @@ function getDepartments() {
     return $data;
 }
 
-function addWorker( $fname, $lname, $depart, $title) {
+function dbAddWorker($fname, $lname, $depart, $title) {
     $conn = OpenCon();
     $fname = mysqli_real_escape_string($conn,  $fname);
     $lname = mysqli_real_escape_string($conn, $lname);
@@ -55,7 +46,7 @@ function addWorker( $fname, $lname, $depart, $title) {
     }
 }
 
-function updateWorker( $worker ) {
+function dbUpdateWorker($worker ) {
 
     try {
         $conn = OpenCon();
@@ -79,7 +70,7 @@ function updateWorker( $worker ) {
 
 }
 
-function getWorker( $id ) {
+function dbGetWorker($id ) {
 
     $conn = OpenCon();
     $id = mysqli_real_escape_string($conn, $id);
@@ -99,7 +90,7 @@ function getWorker( $id ) {
     return $worker;
 }
 
-function deleteWorker( $id ){
+function dbDeleteWorker($id ){
     try {
         $conn = OpenCon();
         $id = mysqli_real_escape_string($conn, $id);
@@ -116,19 +107,102 @@ function deleteWorker( $id ){
     }
 }
 
-function loginCheck( $username, $password){
+function dbCountSearchRows($table, $search ) {
 
     $conn = OpenCon();
-    $sql = $conn->prepare( "SELECT username, password FROM users WHERE username = '$username' AND password = '$password'");
+    $search = mysqli_real_escape_string($conn, $search);
+    $sql = $conn->prepare(" 
+    SELECT
+      *
+    FROM
+      $table
+    WHERE
+      FirstName LIKE '%".$search."%' OR 
+      LastName LIKE '%".$search."%' OR 
+      Title LIKE '%".$search."%' OR 
+      Id LIKE '%".$search."%'
+    ");
+    $sql->execute();
+    $result = $sql->get_result();
+    $totalRows = $result->num_rows;
+    CloseCon($conn);
+    // total of rows
+    return $totalRows;
+}
+
+function dbSearchWorkers($searchString, $offset, $limit ) {
+    $conn = OpenCon();
+    $search = mysqli_real_escape_string($conn, $searchString);
+    $sql = $conn->prepare("
+    SELECT
+      Id,
+      FirstName,
+      LastName,
+      DepartmentId,
+      Title
+    FROM
+      workers
+    WHERE
+      FirstName LIKE '%" . $searchString .  "%'OR 
+      LastName LIKE '%" . $searchString ."%'OR 
+      Title LIKE '%" . $searchString ."%'OR 
+      Id LIKE '%" . $searchString ."%'
+    LIMIT
+      $limit
+    OFFSET 
+      $offset  
+      ");
+
+
+    $sql->execute();
+    $result = $sql->get_result();
+    $workersArray = array();
+    $i = 0;
+    foreach ( $result as $row ){
+        $worker = new Worker;
+        $worker->id = $row['Id'];
+        $worker->firstName = $row['FirstName'];
+        $worker->lastName = $row['LastName'];
+        $worker->department = $row['Title'];
+        $worker->title = $row['DepartmentId'];
+        array_push($workersArray, $worker);
+    }
+    CloseCon($conn);
+
+    return $workersArray;
+}
+
+function dbLoginCheck( $username, $password ){
+
+    $conn = OpenCon();
+    $sql = $conn->prepare( "SELECT username, hash FROM users WHERE username = '$username'");
     $sql->execute();
     $result = $sql->get_result();
     $row_count = $result->num_rows;
+    $result = $result->fetch_assoc();
     CloseCon($conn);
     if ( $row_count > 0 ){
-        return true;
+        if (password_verify( $password, $result['hash'] )) {
+            return true; 
+        }
     } else {
         return false;
     }
 }
 
+function dbRegistration($username , $plain_txt_password ) {
+    require_once "../library/authorisation.php";
+    $conn = OpenCon();
+    $username = mysqli_real_escape_string($conn, $username);
+    $plain_txt_password = mysqli_real_escape_string($conn, $plain_txt_password);
+    $plain_txt_password = passwordHash( $plain_txt_password );
+
+    $sql = $conn->prepare( "
+    INSERT INTO users ( username, hash) VALUES ( ?, ?);
+    " );
+    $sql->bind_param("ss", $username, $plain_txt_password );
+    $sql->execute();
+    CloseCon($conn);
+    
+}
 ?>

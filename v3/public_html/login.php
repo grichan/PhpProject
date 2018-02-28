@@ -7,13 +7,17 @@ if (isset($_SESSION['logged_in']) == true)
 ?>
 <html>
 <head>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <script src="js/jquery-3.3.1.js" type="text/javascript"></script>
+    <script src="css/popper.min.js"></script>
+    <script src="css/bootstrap.min.js"></script>
+    </script>  <link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
 </head>
 <?php require_once("../resources/config.php");?>
+
+
 
 <body>
     <div class="container-fluid">
@@ -21,7 +25,7 @@ if (isset($_SESSION['logged_in']) == true)
             <div class="col"></div>
             <div class="col"></div>
             <div class="col">
-                <button class="btn btn-default float-right" >REGISTER</button>
+                <button  data-toggle="modal" data-target="#registerModal"   class="btn btn-default float-right" >REGISTER</button>
             </div>
         </div>
     </div>
@@ -41,37 +45,75 @@ if (isset($_SESSION['logged_in']) == true)
             <div class="col">
                     <form class="form-group">
                         <label for="exampleInputPassword1">USERNAME</label>
-                        <input type="text" class="form-control" id="username" placeholder="username">
+                        <input required type="text" class="form-control" id="username" placeholder="username">
                         <label for="exampleInputPassword1">PASSWORD</label>
-                        <input type="text" class="form-control" id="password" placeholder="password">
+                        <input required type="password" class="form-control" id="password" placeholder="password">
                         <br>
-                        <input id="submit" type="submit" class="form-control transform" id="login">
+                        <input id="login" type="submit" class="form-control transform" id="login">
                     </form>
             </div>
             <div class="col"></div>
         </div>
     </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLable" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registration form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="reg_form">
+                    <label for="email" required >Email:</label>
+                    <input type="text" class="form-control" id="email" placeholder="example@example.com" required> 
+
+                    <label for="password" required>Password: <a href="#" data-toggle="tooltip" title="At least: one capital letter, one number, 8 charecters long"><i class="fas fa-info-circle"></i></a> </label>
+                    <input type="password" placeholder="Example1"  class="form-control" id="password_register" required>                   
+                    <label for="password" required>Confirm Password: </label> 
+                    <input type="password" placeholder="Example1"  class="form-control" id="password_register_confirm" required>
+                    <div id="password_conf_alert"></div>
+                    <div id="status_alert"></div>
+                    
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" value="Register" id="register">Register</button>
+        </form>
+
+        </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 <script>
     function onLoginFail(data) {
-        // just in case posting your form failed
-        alert( "Posting failed." );
+        var result =  $.parseJSON( data );
+        alert( result[0]);
 
     }
     function onLoginReady(data) {
         // show the response
         var result =  $.parseJSON( data );
-        alert( result[0] );
-        window.location.replace( result[1]);
+        if( result[0] == "true"  ) {
+            window.location.replace( result[1]);
+        } else {
+            alert( "Please Try again")
+        }
         //alert(data[0]);
 
     }
     function onSubmitClick(e) {
-        $('#submit').toggleClass('transform-active');
-        $('#submit').toggleClass('transform-active');
+        $('#login').toggleClass('transform-active');
+        $('#login').toggleClass('transform-active');
 
         //alert("clicked!")
-        e.preventDefault(); // The default event will not be triggered
         //alert( "POST-type: " + $(this).attr('id'));
         var username = $( '#username').val();
         var password = $( '#password').val();
@@ -84,13 +126,19 @@ if (isset($_SESSION['logged_in']) == true)
         ajaxParams.data = { "username": username , "password": password  };
         $.ajax(ajaxParams).done(onLoginReady).fail(onLoginFail);
         return false;
-    }
-    function onDocumentReady(){
-        $(" #submit").click(onSubmitClick);
-    }
-    $(document).ready(onDocumentReady);
+    }    
 </script>
 
+<script src="../public_html/js/registration.js"></script>
+<script>
+    function onDocumentReady(){
+        $(" #login").click(onSubmitClick);
+        $("#register").click(registerAjax);
+        $('[data-toggle="tooltip"]').tooltip();
+                    
+        }
+        $(document).ready(onDocumentReady);       
+</script>
 <style>
     body{
         background: linear-gradient(275deg, #2a42c5, #057487, #013b5f);
@@ -119,7 +167,7 @@ if (isset($_SESSION['logged_in']) == true)
     #loginRow {
         color: rgba(240, 239, 255, 0.86);
     }
-     input[type="text"]
+    .form-group > input[type="text"] ,.form-group > input[type="password"]
     {
          background: transparent;
          color:white;
@@ -127,14 +175,17 @@ if (isset($_SESSION['logged_in']) == true)
     #login{
         background: rgba(240, 239, 255, 0.94);
     }
-    h1{
-        font-size: 3.2vw;
-        color: rgba(240, 239, 255, 0.97);
-        font-family: 'Fjalla One', sans-serif;
-    }
     button {
         background: rgba(240, 239, 255, 0.97);
         margin-top: 0.3vw;
+    }
+    h1 {
+        font-size: 65px;
+        color: rgba(240, 239, 255, 0.97);
+        font-family: 'Fjalla One', sans-serif;
+    }
+    #RegisterModal .modal-footer {
+        justify-content: space-between;
     }
 
 </style>

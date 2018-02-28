@@ -10,7 +10,7 @@ if(isset($_POST['Id'])) {
     $worker->lastName = $_POST['LastName'];
     $worker->department = $_POST['dropdown'];
     $worker->title = $_POST['Title'];
-    echo $result = updateWorker( $worker );
+    echo $result = dbUpdateWorker( $worker );
     header("location:../../public_html/index.php"); /* Redirect browser */
     exit();
 }

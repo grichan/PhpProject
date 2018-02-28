@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../config.php';
+include "../classes/Worker.php";
 
 $login_status = false;
 if ( $_SESSION && $_SESSION["logged_in"] == true){
@@ -47,103 +48,43 @@ $search = $_POST['search']; // gets the search string
 
 
 echo "<h1> Searched for: ". $search ."</h1>";
-// total of rows
-$sql = $conn->prepare(" 
-SELECT
-  *
-FROM
-  workers
-WHERE
-  FirstName LIKE '%".$search."%' OR 
-  LastName LIKE '%".$search."%' OR 
-  Title LIKE '%".$search."%' OR 
-  Id LIKE '%".$search."%'
-");
-$sql->execute();
+$totalRows = dbCountSearchRows( "workers", $search);
+$workers = dbSearchWorkers( $search, $page_left, $limit );
 
-$result = $sql->get_result();
-$totalRows = $result->num_rows;
 
-$sql = $conn->prepare("
-SELECT
-  Id,
-  FirstName,
-  LastName,
-  DepartmentId,
-  Title
-FROM
-  workers
-WHERE
-  FirstName LIKE '%" . $search .  "%'OR 
-  LastName LIKE '%" . $search ."%'OR 
-  Title LIKE '%" . $search ."%'OR 
-  Id LIKE '%" . $search ."%'
-LIMIT
-  $limit
-OFFSET 
-  $page_left  
-  ");
-
-/*
-SELECT
-  Id,
-  FirstName,
-  LastName,
-  DepartmentId,
-  Title
-FROM
-  workers
-WHERE
-  FirstName LIKE '%" . $search .  "%'OR
-  LastName LIKE '%" . $search ."%'OR
-  Title LIKE '%" . $search ."%'OR
-  Id LIKE '%" . $search ."%'
-LIMIT
-  $limit
-OFFSET
-  $page_left
-  ");
-*/
-
-$sql->execute();
-$result = $sql->get_result();
-CloseCon($conn);
-
-// TABLE DATA
-echo "<h5>Results: $totalRows</h5>";
 echo "<table class='table'>";
+echo "<tr>";
+echo "<th>Id </th>";
+echo "<th>First Name  </th>";
+echo "<th>Last Name </th>";
+echo "<th>Title </th>";
+echo "<th>Depart </th>";
+echo "</tr>";
+foreach ( $workers as $row ) {
     echo "<tr>";
-        echo "<th>Id </th>";
-        echo "<th>First Name  </th>";
-        echo "<th>Last Name </th>";
-        echo "<th>Title </th>";
-        echo "<th>Depart </th>";
-    echo "</tr>";
-while ($row = $result->fetch_assoc()) {
-    $json_response = json_encode($row);
-    echo "<tr>";
-        echo "<td>" . $row['Id'] . "</td>";
-        echo "<td>" . $row['FirstName'] . "</td>";
-        echo "<td>" . $row['LastName'] . "</td>";
-        echo "<td>" . $row['Title'] . "</td>";
-        echo "<td>" . $row['DepartmentId'] . "</td>";
-        if ( $login_status ){
+    echo "<td>" . $row->id . "</td>";
+    echo "<td>" . $row->firstName . "</td>";
+    echo "<td>" . $row->lastName . "</td>";
+    echo "<td>" . $row->department . "</td>";
+    echo "<td>" . $row->title . "</td>";
+    if ($login_status) {
         echo '<td>
                 <form action="edit.php" method="post">
-                    <button name="Edit" value=" ' . $row['Id'] . ' " class="btn">Edit</button>
+                    <button name="Edit" value=" ' . $row->id . ' " class="btn">Edit</button>
                </form>
                 </td>
                 ';
         echo "<td>
                 <form action=\"../" . TEMPLATES_PATH . "/delete.php \" method=\"post\">
-                    <button name=\"Delete\" value=\"". $row['Id'] ."\" class='btn btn-danger'>Delete</button>
+                    <button name=\"Delete\" value=\"" . $row->id . "\" class='btn btn-danger'>Delete</button>
                </form>
                 </td>
                 ";
     }
 }
     echo "</tr>";
-echo "</table>";
+    echo "</table>";
+
 
 // PAGE NAVIGATION
 if ( $totalRows != 0 )

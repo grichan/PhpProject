@@ -3,7 +3,7 @@
     if(isset($_POST['Delete'])) {
         include 'connection.php';
         $id = $_POST['Delete'];
-        if (deleteWorker($id)){
+        if (dbDeleteWorker($id)){
             header("Location: ../../public_html/index.php"); /* Redirect browser */
         } else {
             echo "an error occured" . "<style> body{ background-color:red; } </style>";

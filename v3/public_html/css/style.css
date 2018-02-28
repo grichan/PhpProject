@@ -12,12 +12,14 @@ html,body
 }
 
 #greetingMessage {
-    font-size: 2.1vw;
+    font-size: 20px;
     color: rgba(240, 239, 255, 0.97);
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-weight: bold;
     text-transform: uppercase;
     display:inline-block;
     margin: 5px;
+    
 }
 
 .dropdown-toggle {
@@ -28,6 +30,7 @@ html,body
 .control_row {
     background: linear-gradient(to right, rgba(1, 32, 60, 0.8), #057487);
 }
+
 .dropdown-menu {
     background-color: #efefef;
     border: solid;
@@ -37,14 +40,23 @@ html,body
     margin-right: 7px;
     margin-top: 5px;
 }
-.dropdown-menu > li:hover {
+
+.dropdown-menu > a:hover {
     background-color: #FFF;
-    color: #057487;
+    border-style: solid;
+    border-color: rgba(1, 32, 60, 0.212);
+    border-width: 2px;
 }
+
 col {
     padding-left: 0!important;
     padding-right: 0!important;
 }
 #response {
     width: 100%;
+}
+
+#dropdownMenuButton {
+    background-color: rgb(255, 255, 255);
+    color: black;
 }
