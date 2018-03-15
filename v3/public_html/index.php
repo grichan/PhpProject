@@ -24,7 +24,7 @@ require_once( "../" . TEMPLATES_PATH . "/footer.php");
 
 <script>
     $(" #searchform button").click(onSearchSumbitClick);
-    $("#searchform  button").trigger('click');
+    $(" #searchform  button").trigger('click');
     function onDocumentReady(){
         $(" #page_btns li").click(onPageButtonClicked);
     }

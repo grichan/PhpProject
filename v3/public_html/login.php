@@ -112,20 +112,19 @@ if (isset($_SESSION['logged_in']) == true)
     function onSubmitClick(e) {
         $('#login').toggleClass('transform-active');
         $('#login').toggleClass('transform-active');
-
-        //alert("clicked!")
-        //alert( "POST-type: " + $(this).attr('id'));
         var username = $( '#username').val();
         var password = $( '#password').val();
-        //alert(username  + password)
-        e.preventDefault(); // The default event will not be triggered
 
-        var ajaxParams = {};
-        ajaxParams.type = "POST";
-        ajaxParams.url = "../<?=TEMPLATES_PATH?>/loginResponse.php";
-        ajaxParams.data = { "username": username , "password": password  };
-        $.ajax(ajaxParams).done(onLoginReady).fail(onLoginFail);
-        return false;
+        if ( username !== "" && password !== ""  ) {
+            e.preventDefault(); // The default event will not be triggered
+            var ajaxParams = {};
+            ajaxParams.type = "POST";
+            ajaxParams.url = "../<?=TEMPLATES_PATH?>/loginResponse.php";
+            ajaxParams.data = { "username": username , "password": password  };
+            $.ajax(ajaxParams).done(onLoginReady).fail(onLoginFail);
+            return false;
+        } else alert("Empty Fields")
+
     }    
 </script>
 
@@ -133,8 +132,8 @@ if (isset($_SESSION['logged_in']) == true)
 <script>
     function onDocumentReady(){
         $(" #login").click(onSubmitClick);
-        $("#register").click(registerAjax);
-        $('[data-toggle="tooltip"]').tooltip();
+        $("#register").click(registerAjax); 
+        $('[data-toggle="tooltip"]').tooltip(); // activate tooltips
                     
         }
         $(document).ready(onDocumentReady);       

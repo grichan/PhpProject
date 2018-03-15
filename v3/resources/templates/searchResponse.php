@@ -94,39 +94,39 @@ if ( $totalRows != 0 )
             <nav aria-label=\"Page navigation \">
                 <ul class=\"pagination\">         
     ");
-    if($next_page > 3) // print previous
-    {
-        echo (" <li id=\"1\" class=\"page-item\"><a class=\"page-link\" href=\"#\">First</a></li> ");
-    }
-    $max_page = ceil($totalRows / $limit); // max page count
+            if($next_page > 3) // print previous
+            {
+                echo (" <li id=\"1\" class=\"page-item\"><a class=\"page-link\" href=\"#\">First</a></li> ");
+            }
+            $max_page = ceil($totalRows / $limit); // max page count
 
-    // ECHO PAGINATION
-    for( $i =1; $i <= $max_page; $i++ )
-    {
-         if ( $i == $next_page-1 ) // print before current page
-        {
-            echo ("  <li id=\"$i\" class=\"page-item \"><a class=\"page-link\" href=\"#\">$i</a></li> ");
-        }else if( $i == $next_page-2) // print as active current page
-         {
-             echo ("  <li id=\"$i\" class=\"page-item \"><a class=\"page-link\" href=\"#\">$i</a></li> ");
-         }
-        else if( $i == $next_page) // print as active current page
-        {
-            echo ("  <li id=\"$i\" class=\"page-item active\"><a class=\"page-link\" href=\"#\">$i</a></li> ");
-        }
-        else if ( $i == $next_page+1 ) // print active after page
-        {
-            echo ("  <li id=\"$i\" class=\"page-item\"><a class=\"page-link\" href=\"#\">$i</a></li> ");
-        }else if ( $i == $next_page+2 ) // print active after page
-        {
-            echo ("  <li id=\"$i\" class=\"page-item\"><a class=\"page-link\" href=\"#\">$i</a></li> ");
-        }
-    }
+            // ECHO PAGINATION
+            for( $i =1; $i <= $max_page; $i++ )
+            {
+                 if ( $i == $next_page-1 ) // print before current page
+                {
+                    echo ("  <li id=\"$i\" class=\"page-item \"><a class=\"page-link\" href=\"#\">$i</a></li> ");
+                }else if( $i == $next_page-2) // print as active current page
+                 {
+                     echo ("  <li id=\"$i\" class=\"page-item \"><a class=\"page-link\" href=\"#\">$i</a></li> ");
+                 }
+                else if( $i == $next_page) // print as active current page
+                {
+                    echo ("  <li id=\"$i\" class=\"page-item active\"><a class=\"page-link\" href=\"#\">$i</a></li> ");
+                }
+                else if ( $i == $next_page+1 ) // print active after page
+                {
+                    echo ("  <li id=\"$i\" class=\"page-item\"><a class=\"page-link\" href=\"#\">$i</a></li> ");
+                }else if ( $i == $next_page+2 ) // print active after page
+                {
+                    echo ("  <li id=\"$i\" class=\"page-item\"><a class=\"page-link\" href=\"#\">$i</a></li> ");
+                }
+            }
 
-     if ( $next_page < $max_page-2 ) // print before current page
-    {
-        echo ("  <li id=\"$max_page\" class=\"page-item \"><a class=\"page-link\" href=\"#\">Last</a></li> ");
-    }
+             if ( $next_page < $max_page-2 ) // print before current page
+            {
+                echo ("  <li id=\"$max_page\" class=\"page-item \"><a class=\"page-link\" href=\"#\">Last</a></li> ");
+            }
 
     echo (" 
                 </ul>

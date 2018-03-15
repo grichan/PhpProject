@@ -7,7 +7,4 @@
         return $hashed_password;
     }
 
-
-
-
 ?>

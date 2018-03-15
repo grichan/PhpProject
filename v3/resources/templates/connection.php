@@ -203,6 +203,5 @@ function dbRegistration($username , $plain_txt_password ) {
     $sql->bind_param("ss", $username, $plain_txt_password );
     $sql->execute();
     CloseCon($conn);
-    
 }
 ?>

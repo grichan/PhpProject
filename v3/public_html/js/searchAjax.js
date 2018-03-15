@@ -11,15 +11,6 @@ function onSearchSumbitClick(e) {
   var page_number = localStorage.getItem("page");
 
   e.preventDefault(); // The default event will not be triggered
-
-  // var bla = $('#page').val();
-  // alert(bla);
-
-  /*
-     * 'post_receiver.php' - where you will pass the form data
-     * $(this).serialize() - to easily read form data
-     * function(data){... - data contains the response from post_receiver.php
-     */
   var ajaxParams = {};
   ajaxParams.type = "POST";
   ajaxParams.url = "../<?=TEMPLATES_PATH?>/searchResponse.php";

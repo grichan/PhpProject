@@ -1,7 +1,6 @@
 <?php
 
     if ( $_POST["password"] == $_POST["password_confirmation"] ) {
-        
         include_once "../templates/connection.php";
         try {
             $username =(string) $_POST["username"];

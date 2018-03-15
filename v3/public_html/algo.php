@@ -131,23 +131,20 @@ for ( $i = 0; $i < strlen($str); $i++){
     }
 }
 foreach($array1 as $key => $value) {
-
     if ( ($value % 2) != 0 ){
         echo $key;
         echo "<br>";
     }
 }
 
+
+echo "<br>";
+echo "<br>";
 $masiv = array(1, 1, 2, 3, 2);
 $result = 0;
 foreach ( $masiv as $element){
     $result = $result ^ $element;
-        
-            }
+}
 echo $result;
-
-
-echo "<br>";
-
 
 ?>

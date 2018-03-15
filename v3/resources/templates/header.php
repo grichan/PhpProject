@@ -16,7 +16,7 @@ if(isset($_SESSION['name']) && !empty($_SESSION['name'])) {
         echo "
                         <div class=\"row control_row \">
                             <div class=\"col \"></div>
-                            <div id='greetingMessage' class=\"col text-center \" >Welcome $username</div>
+                            <div id='greetingMessage' class=\"col text-center \" >Logged in as: $username</div>
                             <div class=\"col\">
                                 <div class='dropdown float-right '>
                                     <button class='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown'  aria-haspopup='true' aria-expanded='false'>
@@ -37,7 +37,7 @@ if(isset($_SESSION['name']) && !empty($_SESSION['name'])) {
         echo "
                         <div class=\"row top_header\">
                             <div class=\"col\"></div>
-                            <div class=\"col text-center\" style='color: #FFFFFF'><a href='login.php' >Please Login to edit</a></div>
+                            <div class=\"col text-center\" ><a href='login.php' style='color: #c82333;' >Please Login to edit</a></div>
                             <div class=\"col\"></div>
                         </div>                   
                 ";

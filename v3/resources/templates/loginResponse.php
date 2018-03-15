@@ -6,7 +6,6 @@ if(isset($_POST["username"], $_POST["password"]))
     include "../library/authorisation.php";
     include_once "../templates/connection.php";
 
-
     if ( dbLoginCheck( $_POST["username"], $_POST["password"] ) ){
         $_SESSION["logged_in"] = true;
         $_SESSION["name"] = $_POST["username"];
